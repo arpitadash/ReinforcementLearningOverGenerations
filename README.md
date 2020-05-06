@@ -1,6 +1,6 @@
 # ReinforcementLearningOverGenerations
 
-## To run the code: 
+## To run the code
 
 * `cd gym_organism`
 * `pip install -e .`
