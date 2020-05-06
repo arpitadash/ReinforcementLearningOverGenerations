@@ -1,7 +1,8 @@
 import numpy as np
 import gym
+import gym_organism
 
-env = gym.make("Taxi-v3")
+env = gym.make("Organism-v0")
 
 env.reset() # reset environment to a new, random state
 
