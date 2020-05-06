@@ -10,6 +10,7 @@
 * `cd gym`
 * `pip install -e .`
 
+##### To run our custom organism O's environment
 * `cd gym_organism`
 * `pip install -e .`
 
