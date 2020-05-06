@@ -6,32 +6,39 @@ from gym import utils, Env, spaces
 
 import numpy as np
 
-
 MAP = [
-    #x-axis: row wise, 
-    #y-axis: column wise
-    "+-------------------+",
-    "|x: | : : : : : : : |",
-    "| : | : : : : | : | |",
-    "| : : : : : : : : : |",
-    "| | : | : : | : :x: |",
-    "|x| : | : : : : : | |",
-    "| : : : : : | : : : |",
-    "| : : : | : | : : : |",
-    "| : | : : | : : : | |",
-    "| : : : : : : : : : |",
-    "| : | : : : : : | :x|",
-    "+-------------------+",
+    "+---------------------------------------+",
+    "| : | : :x: : : : : : : : : : : : : : | |",
+    "| : | : : : : | : | : : : : : : : : : | |",
+    "| : : : : : : : : : : : | : : : : | : : |",
+    "| | : | : : | : :x: : : : : : : : : : : |",
+    "|x| : | : : : : : | : : | : : | : : : : |",
+    "| : : : : : | : : : : : : : : : : : : :x|",
+    "| : : : | : | : : : : : : : : | : : : : |",
+    "| : | : : | : : : | : : : : : | : : : | |",
+    "| : : : : : : : : : : : : : : : : : : : |",
+    "| : | : : : : : | :x: : | : : : : : : : |",
+    "| : | : : : : : | : : : | : : : : : : : |",
+    "| : : : : | : : : : : : : : : : : :x: : |",
+    "| : | : : : : : | : : : : : : | : : : : |",
+    "| : : : | : : : : : | : : | : | : : : :x|",
+    "| : | : : : : : : : | : : : : : : : : : |",
+    "| : : : :x| : : | : : : : : | : : | : : |",
+    "| : : : : : : : | : : : : | : : : : : : |",
+    "| : : | : : : : : : : | : : : : : | : | |",
+    "| : : : : : : : | : : : : : : : : : : : |",
+    "| : : | : : : : : : : | : : |x: : : : : |",
+    "+---------------------------------------+",
 ]
 
 class OrganismEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human', 'ansi']}
     def __init__(self):
         self.desc = np.asarray(MAP, dtype='c')
-        self.locs = locs = [(0,0), (4,0), (3,8), (9,9)]
-        num_states = 10*10*4 #food destinations are 4
-        num_rows = 10
-        num_columns = 10
+        self.locs = locs = [(4,0), (0,4), (3,8), (9,9), (5,19), (11, 17), (13, 19), (15,4), (19, 14)]
+        num_states = 20*20*9 #food destinations are 9
+        num_rows = 20
+        num_columns = 20
         max_row = num_rows - 1
         max_col = num_columns - 1
         initial_state_distrib = np.zeros(num_states)
@@ -72,22 +79,22 @@ class OrganismEnv(discrete.DiscreteEnv):
         discrete.DiscreteEnv.__init__(self, num_states, num_actions, P, initial_state_distrib)
             
     def encode(self, organism_row, organism_col, food_idx):
-        # 10, 10, 4
+        # 20, 20, 9
         i = organism_row
-        i *= 10
+        i *= 20
         i += organism_col
-        i *= 4
+        i *= 9
         i += food_idx
         return i
 
     def decode(self, i):
         out = []
         out.append(i % 4)
-        i = i // 4
+        i = i // 9
         out.append(i % 10)
-        i = i // 10
+        i = i // 20
         out.append(i)
-        assert 0 <= i < 10
+        assert 0 <= i < 20
         return reversed(out)
 
     def render(self, mode='human'):
