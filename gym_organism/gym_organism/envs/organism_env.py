@@ -1,7 +1,7 @@
 import sys
 from contextlib import closing
 from io import StringIO
-import discrete_env
+from gym.envs.toy_text import discrete
 from gym import utils, Env, spaces
 
 import numpy as np
@@ -24,7 +24,7 @@ MAP = [
     "+-------------------+",
 ]
 
-class OrganismEnv(discrete_env.DiscreteEnv):
+class OrganismEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human', 'ansi']}
     def __init__(self):
         self.desc = np.asarray(MAP, dtype='c')
@@ -69,7 +69,7 @@ class OrganismEnv(discrete_env.DiscreteEnv):
                                 (1.0, new_state, reward, done))
 
         initial_state_distrib /= initial_state_distrib.sum()
-        discrete_env.DiscreteEnv.__init__(self, num_states, num_actions, P, initial_state_distrib)
+        discrete.DiscreteEnv.__init__(self, num_states, num_actions, P, initial_state_distrib)
             
     def encode(self, organism_row, organism_col, food_idx):
         # 10, 10, 4
@@ -108,4 +108,3 @@ class OrganismEnv(discrete_env.DiscreteEnv):
         if mode != 'human':
             with closing(outfile):
                 return outfile.getvalue()
-
